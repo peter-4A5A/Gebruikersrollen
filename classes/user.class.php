@@ -40,6 +40,46 @@ require_once 'security.class.php';
    }
 
    /**
+    * Logs a user out
+    */
+   public function userLogout($redirectLocation) {
+     unset($_SESSION['loginToken']);
+     unset($_SESSION['userMail']);
+     unset($_SESSION['userGroup']);
+
+     header("Refresh:0; " . $redirectLocation);
+   }
+
+   /**
+    * Registers a new user
+    * If the mail adress isn't in our db
+    * @param  [string] $newEmail    [The mail adress from the user]
+    * @param  [string] $newPassword [The password that the user wants]
+    * @return [string]              [A message if a user has been registerd]
+    */
+   public function registerNewUser($newEmail, $newPassword) {
+     $db = new db();
+     $s = new Security();
+
+     $password = $this->generateHashPassword($s->checkInput($newPassword));
+
+     if (!$this->checkIfEmailExists($newEmail)) {
+       $sql = "INSERT INTO `user`(`email`, `wachtwoord`) VALUES (:mail, :password)";
+       $input = array(
+         "mail" => $s->checkInput($newEmail),
+         "password" => $s->checkInput($password)
+       );
+
+       $db->createData($sql, $input);
+
+       return('succes');
+     }
+     else {
+       return('Email exists');
+     }
+   }
+
+   /**
     * This function checks if a client has acces
     * It checks if we have a login token
     * And if we can acces it with our group
@@ -63,16 +103,12 @@ require_once 'security.class.php';
      }
    }
 
-
    /**
-    * Logs a user out
+    * Sets the acces for a page
+    * @param [array] $groups [The groups]
     */
-   public function userLogout($redirectLocation) {
-     unset($_SESSION['loginToken']);
-     unset($_SESSION['userMail']);
-     unset($_SESSION['userGroup']);
-
-     header("Refresh:0; " . $redirectLocation);
+   public function setPageAcces($groups) {
+     $this->pageAcces = $groups;
    }
 
    /**
@@ -89,7 +125,7 @@ require_once 'security.class.php';
     * Checks if a user has acces to a page
     * @return [boolean] [description]
     */
-   public function checkUserGroup() {
+   private function checkUserGroup() {
      foreach ($this->pageAcces as $key) {
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          return(true);
@@ -98,14 +134,6 @@ require_once 'security.class.php';
          return(false);
        }
      }
-   }
-
-   /**
-    * Sets the acces for a page
-    * @param [array] $groups [The groups]
-    */
-   public function setPageAcces($groups) {
-     $this->pageAcces = $groups;
    }
 
    /**
@@ -194,35 +222,6 @@ require_once 'security.class.php';
 
      foreach ($result as $key) {
        return($key['wachtwoord']);
-     }
-   }
-
-   /**
-    * Registers a new user
-    * If the mail adress isn't in our db
-    * @param  [string] $newEmail    [The mail adress from the user]
-    * @param  [string] $newPassword [The password that the user wants]
-    * @return [string]              [A message if a user has been registerd]
-    */
-   public function registerNewUser($newEmail, $newPassword) {
-     $db = new db();
-     $s = new Security();
-
-     $password = $this->generateHashPassword($s->checkInput($newPassword));
-
-     if (!$this->checkIfEmailExists($newEmail)) {
-       $sql = "INSERT INTO `user`(`email`, `wachtwoord`) VALUES (:mail, :password)";
-       $input = array(
-         "mail" => $s->checkInput($newEmail),
-         "password" => $s->checkInput($password)
-       );
-
-       $db->createData($sql, $input);
-
-       return('succes');
-     }
-     else {
-       return('Email exists');
      }
    }
 
