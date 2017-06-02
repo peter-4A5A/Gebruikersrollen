@@ -6,6 +6,7 @@ require_once 'security.class.php';
    private $mail;
    private $password;
    private $loginToken;
+   private $pageAcces;
 
    function __construct() {
      $this->loginToken = 'h79vr29hu3pqhf-249pgae';
@@ -15,8 +16,9 @@ require_once 'security.class.php';
     * User login handler
     * @param  [string] $userInputMail     [The mail adress that the user filled in]
     * @param  [string] $userInputPassword [The password the user filled in]
+    * @param [string] $redirectLocation The location that we need the user to redirect to
     */
-   public function userLogin($userInputMail, $userInputPassword) {
+   public function userLogin($userInputMail, $userInputPassword, $redirectLocation) {
      if ($this->checkIfEmailExists($userInputMail)) {
 
        $orginalHashedPassword = $this->getOrginalPassword($userInputMail);
@@ -25,6 +27,7 @@ require_once 'security.class.php';
          $this->saveUserCredentials($userInputMail);
          $this->setLoginToken();
          $this->setUserGroup($userInputMail);
+         header("Refresh:0; " . $redirectLocation);
        }
        else {
           return("Wrong password");
@@ -33,6 +36,33 @@ require_once 'security.class.php';
 
      else {
        return("Don't know that user");
+     }
+   }
+
+   /**
+    * This function checks if a client has acces
+    * It checks if we have a login token
+    * And if we can acces it with our group
+    * @return [boolean] [If we have acces or not]
+    */
+   public function clientIfUserHasAcces() {
+     $loginToken = $this->checkLoginToken();
+     $userGroup = $this->checkUserGroup();
+
+     if ($loginToken == true) {
+       if ($userGroup == true) {
+         return(true);
+       }
+
+       else {
+         // false
+         return(false);
+       }
+
+     }
+
+     else {
+       return(false);
      }
    }
 
@@ -53,8 +83,27 @@ require_once 'security.class.php';
      $_SESSION['userMail'] = $S->checkInput($mail);
    }
 
+   /**
+    * Checks if a user has acces to a page
+    * @return [boolean] [description]
+    */
    public function checkUserGroup() {
+     foreach ($this->pageAcces as $key) {
+       if ($key == $_SESSION['userGroup']) {
+         return(true);
+       }
+       else {
+         return(false);
+       }
+     }
+   }
 
+   /**
+    * Sets the acces for a page
+    * @param [array] $groups [The groups]
+    */
+   public function setPageAcces($groups) {
+     $this->pageAcces = $groups;
    }
 
    /**
