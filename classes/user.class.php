@@ -27,7 +27,7 @@ require_once 'security.class.php';
          $this->saveUserCredentials($userInputMail);
          $this->setLoginToken();
          $this->setUserGroup($userInputMail);
-        //  header("Refresh:0; " . $redirectLocation);
+         header("Refresh:0; " . $redirectLocation);
        }
        else {
           return("Wrong password");
