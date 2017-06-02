@@ -67,10 +67,12 @@ require_once 'security.class.php';
    /**
     * Logs a user out
     */
-   public function userLogout() {
+   public function userLogout($redirectLocation) {
      unset($_SESSION['loginToken']);
      unset($_SESSION['userMail']);
      unset($_SESSION['userGroup']);
+
+     header("Refresh:0; " . $redirectLocation);
    }
 
    /**
