@@ -46,11 +46,8 @@ require_once 'security.class.php';
     * @return [boolean] [If we have acces or not]
     */
    public function clientIfUserHasAcces() {
-     $loginToken = $this->checkLoginToken();
-     $userGroup = $this->checkUserGroup();
-
-     if ($loginToken == true) {
-       if ($userGroup == true) {
+     if ($this->checkLoginToken() == true) {
+       if ($this->checkUserGroup() == true) {
          return(true);
        }
 
@@ -88,8 +85,6 @@ require_once 'security.class.php';
     * @return [boolean] [description]
     */
    public function checkUserGroup() {
-     var_dump($this->pageAcces);
-     var_dump($_SESSION);
      foreach ($this->pageAcces as $key) {
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          return(true);
@@ -121,10 +116,8 @@ require_once 'security.class.php';
        "mail" => $S->checkInput($mail)
      );
      $result = $Db->readData($sql, $input);
-     var_dump($result);
 
      foreach ($result as $key) {
-       echo $key['group'];
        $_SESSION['userGroup'] = $key['groep'];
      }
    }
