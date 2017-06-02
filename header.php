@@ -1,6 +1,7 @@
 <div class="row1">
   <header id="header" class="hoc clear">
     <!-- ################################################################################################ -->
+    <?php if (ISSET($_SESSION['userMail'])){echo "Gebruiker: " . $_SESSION['userMail'];} ?>
     <div id="logo" class="fl_left">
       <h1><a href="index.html">Cooban</a></h1>
     </div>
@@ -14,7 +15,9 @@
           </ul>
         </li>
         <li><a href="locaties.php">Locaties</a></li>
-        <li class="active"><a href="gebruikers.php">Gebruikers</a></li>
+        <li><a href="gebruikers.php">Gebruikers</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="login.php?logout=true">Logout</a></li>
       </ul>
     </nav>
     <!-- ################################################################################################ -->
