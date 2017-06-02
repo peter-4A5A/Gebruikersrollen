@@ -1,3 +1,5 @@
+<?php session_start();
+require_once 'classes/user.class.php'; ?>
 <!DOCTYPE html>
 <!--
 Template Name: Cooban
