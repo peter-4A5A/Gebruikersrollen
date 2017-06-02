@@ -1,3 +1,5 @@
+<?php session_start();
+require_once 'classes/user.class.php'; ?>
 <!DOCTYPE html>
 <!--
 Template Name: Cooban
@@ -18,10 +20,10 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/01.png');"> 
+<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/01.png');">
   <!-- ################################################################################################ -->
   <div class="row1">
-    <header id="header" class="hoc clear"> 
+    <header id="header" class="hoc clear">
       <!-- ################################################################################################ -->
       <div id="logo" class="fl_left">
         <h1><a href="index.html">Cooban</a></h1>
@@ -45,7 +47,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <!-- ################################################################################################ -->
   <!-- ################################################################################################ -->
   <!-- ################################################################################################ -->
-  <div id="breadcrumb" class="hoc clear"> 
+  <div id="breadcrumb" class="hoc clear">
     <!-- ################################################################################################ -->
     <!-- ################################################################################################ -->
   </div>
@@ -56,35 +58,48 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <div class="wrapper row3">
-  <main class="hoc container clear"> 
+  <main class="hoc container clear">
     <!-- main body -->
     <!-- ################################################################################################ -->
-    <div class="content"> 
+    <div class="content">
       <!-- ################################################################################################ -->
-      <h1>Producten</h1>
-      <div class="scrollable">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Machine A</td>
-            </tr>
-            <tr>
-              <td>Machine B</td>
-            </tr>
-            <tr>
-              <td>Machine C</td>
-            </tr>
-            <tr>
-              <td>Machine D</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <?php
+        $User = new User();
+        $User->setPageAcces(['voorraad', 'account', 'manager']);
+
+        if ($User->clientIfUserHasAcces()) {
+          echo '
+          <h1>Producten</h1>
+          <div class="scrollable">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Machine A</td>
+                </tr>
+                <tr>
+                  <td>Machine B</td>
+                </tr>
+                <tr>
+                  <td>Machine C</td>
+                </tr>
+                <tr>
+                  <td>Machine D</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          ';
+        }
+        else {
+          echo "No acces";
+        }
+
+      ?>
       <!-- ################################################################################################ -->
     </div>
     <!-- ################################################################################################ -->
@@ -99,7 +114,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <div class="wrapper row5">
-  <div id="copyright" class="hoc clear"> 
+  <div id="copyright" class="hoc clear">
     <!-- ################################################################################################ -->
     <p class="fl_left">Copyright &copy; 2015 - All Rights Reserved - <a href="#">Domain Name</a></p>
     <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>

@@ -1,5 +1,6 @@
 <?php session_start();
-require_once 'classes/user.class.php'; ?>
+require_once 'classes/user.class.php';
+?>
 <!DOCTYPE html>
 <!--
 Template Name: Cooban
@@ -66,7 +67,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <?php
         $User = new User();
         $User->setPageAcces(['voorraad', 'account', 'manager']);
-        if ($User->checkUserGroup()) {
+        if ($User->clientIfUserHasAcces()) {
           echo '
           <h1>Voorraad</h1>
           <div class="scrollable">
