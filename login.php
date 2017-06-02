@@ -4,7 +4,7 @@
   $User = new User();
 
   if (ISSET($_REQUEST['user'])) {
-    echo $User->userLogin($_REQUEST['user_mail'], $_REQUEST['user_password']);
+    $User->userLogin($_REQUEST['user_mail'], $_REQUEST['user_password'], "/leerjaar2/php/Gebruikersrollen/");
 
     echo "<pre>";
       var_dump($_SESSION);
