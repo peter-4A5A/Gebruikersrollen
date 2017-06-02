@@ -128,12 +128,15 @@ require_once 'security.class.php';
    private function checkUserGroup() {
      foreach ($this->pageAcces as $key) {
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
-         return(true);
+         $result = 'true';
+         break;
        }
        else {
-         return(false);
+         $result = 'false';
        }
+       return($result);
      }
+
    }
 
    /**
