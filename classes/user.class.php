@@ -46,7 +46,6 @@ require_once 'security.class.php';
     * @return [boolean] [If we have acces or not]
     */
    public function clientIfUserHasAcces() {
-     echo $this->checkLoginToken();
      if ($this->checkLoginToken() == true) {
        if ($this->checkUserGroup() == true) {
          return(true);
