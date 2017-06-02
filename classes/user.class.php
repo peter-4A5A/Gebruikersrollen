@@ -64,6 +64,9 @@ require_once 'security.class.php';
    }
 
 
+   /**
+    * Logs a user out
+    */
    public function userLogout() {
      unset($_SESSION['loginToken']);
      unset($_SESSION['userMail']);
@@ -192,19 +195,33 @@ require_once 'security.class.php';
      }
    }
 
+   /**
+    * Registers a new user
+    * If the mail adress isn't in our db
+    * @param  [string] $newEmail    [The mail adress from the user]
+    * @param  [string] $newPassword [The password that the user wants]
+    * @return [string]              [A message if a user has been registerd]
+    */
    public function registerNewUser($newEmail, $newPassword) {
      $db = new db();
      $s = new Security();
 
      $password = $this->generateHashPassword($s->checkInput($newPassword));
 
-     $sql = "INSERT INTO `user`(`email`, `wachtwoord`) VALUES (:mail, :password)";
-     $input = array(
-       "mail" => $s->checkInput($newEmail),
-       "password" => $s->checkInput($password)
-     );
+     if (!$this->checkIfEmailExists($newEmail)) {
+       $sql = "INSERT INTO `user`(`email`, `wachtwoord`) VALUES (:mail, :password)";
+       $input = array(
+         "mail" => $s->checkInput($newEmail),
+         "password" => $s->checkInput($password)
+       );
 
-     $db->createData($sql, $input);
+       $db->createData($sql, $input);
+
+       return('succes');
+     }
+     else {
+       return('Email exists');
+     }
    }
 
    /**
