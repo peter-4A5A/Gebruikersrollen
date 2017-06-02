@@ -46,6 +46,7 @@ require_once 'security.class.php';
     * @return [boolean] [If we have acces or not]
     */
    public function clientIfUserHasAcces() {
+     echo $this->checkLoginToken();
      if ($this->checkLoginToken() == true) {
        if ($this->checkUserGroup() == true) {
          return(true);
@@ -229,8 +230,8 @@ require_once 'security.class.php';
    private function checkLoginToken() {
      // Checks if the user has the same login token
      // Returns true or false
-     if (ISSET($_SESSION['logintoken'])) {
-       if ($_SESSION['logintoken'] === $this->loginToken) {
+     if (ISSET($_SESSION['loginToken'])) {
+       if ($_SESSION['loginToken'] === $this->loginToken) {
          return(true);
        }
        else {
