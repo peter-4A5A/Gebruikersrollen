@@ -27,7 +27,7 @@ require_once 'security.class.php';
          $this->saveUserCredentials($userInputMail);
          $this->setLoginToken();
          $this->setUserGroup($userInputMail);
-         header("Refresh:0; " . $redirectLocation);
+        //  header("Refresh:0; " . $redirectLocation);
        }
        else {
           return("Wrong password");
@@ -88,8 +88,10 @@ require_once 'security.class.php';
     * @return [boolean] [description]
     */
    public function checkUserGroup() {
+     var_dump($this->pageAcces);
+     var_dump($_SESSION);
      foreach ($this->pageAcces as $key) {
-       if ($key == $_SESSION['userGroup']) {
+       if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          return(true);
        }
        else {
@@ -114,14 +116,16 @@ require_once 'security.class.php';
      $Db = new db();
      $S = new Security();
 
-     $sql = "SELECT group FROM user WHERE email=:mail";
+     $sql = "SELECT `groep` FROM user WHERE `email`=:mail";
      $input = array(
        "mail" => $S->checkInput($mail)
      );
      $result = $Db->readData($sql, $input);
+     var_dump($result);
 
      foreach ($result as $key) {
-       $_SESSION['userGroup'] = $key['group'];
+       echo $key['group'];
+       $_SESSION['userGroup'] = $key['groep'];
      }
    }
 
@@ -141,7 +145,7 @@ require_once 'security.class.php';
      $db = new db();
      $s = new Security();
 
-     $sql = "SELECT email FROM user WHERE email=:mail";
+     $sql = "SELECT `email` FROM user WHERE `email`=:mail";
      $input = array(
        "mail" => $s->checkInput($userMailInput)
      );
@@ -184,7 +188,7 @@ require_once 'security.class.php';
      $db = new db();
      $s = new Security();
 
-     $sql = "SELECT wachtwoord FROM user WHERE email=:mail";
+     $sql = "SELECT wachtwoord FROM user WHERE `email`=:mail";
      $input = array(
        "mail" => $s->checkInput($userMail)
      );
@@ -251,6 +255,14 @@ require_once 'security.class.php';
  }
 
 // $user = new User();
-// $user->registerNewUser("test@test.nl", '1234');
+// $user->registerNewUser("voorraad@cooban", '1234');
+//
+// $user->registerNewUser("account@cooban", '1234');
+//
+// $user->registerNewUser("manager@cooban", '1234');
+//
+// $user->registerNewUser("systeembeheer@cooban", '1234');
+
+
 
 ?>
