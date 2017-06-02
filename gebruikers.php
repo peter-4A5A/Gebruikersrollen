@@ -47,7 +47,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <!-- ################################################################################################ -->
       <?php
         $User = new User();
-        $User->setPageAcces(['systeembeheer']);
+        $User->setPageAcces(['systeembeheerder']);
 
         if ($User->clientIfUserHasAcces()) {
           echo '
