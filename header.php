@@ -28,10 +28,6 @@
       </header>
     </div>' ;
   }
-  $User->setPageAcces(['voorraad']);
-  else if ($User->clientIfUserHasAcces()) {
-
-  }
   else {
     echo '
     <div class="row1">
