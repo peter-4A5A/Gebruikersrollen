@@ -126,15 +126,21 @@ require_once 'security.class.php';
     * @return [boolean] [description]
     */
    private function checkUserGroup() {
-     foreach ($this->pageAcces as $key) {
-       if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
-         $result = true;
-         break;
-       }
-       else {
-         $result = false;
+     if (ISSET($_SESSION['userGroup'])) {
+       foreach ($this->pageAcces as $key) {
+         if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
+           $result = true;
+           break;
+         }
+         else {
+           $result = false;
+         }
        }
      }
+     else {
+       $result = false;
+     }
+
      return($result);
 
    }
