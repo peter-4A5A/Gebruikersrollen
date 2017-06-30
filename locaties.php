@@ -45,7 +45,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <div class="content">
       <!-- ################################################################################################ -->
       <?php
-
+      
         $User = new User();
         $User->setPageAcces(['account', 'manager']);
         if ($User->clientIfUserHasAcces()) {
